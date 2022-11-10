@@ -1,24 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import { createContext, useEffect, useReducer } from "react";
+import { QueryClient, QueryClientProvider } from "react-query";
+import reducer from "./reducer";
+import { DEFAULT_MEETING_DATA } from "./constants/meeting.constants";
+import AppRoutes from "./routes";
+import './App.css'
+
+const queryClient = new QueryClient();
+export const MeetingOrganizerContext = createContext();
 
 function App() {
+  const [state, dispatch] = useReducer(reducer, DEFAULT_MEETING_DATA);
+
+  const MeetingOrganizer = {
+    state, dispatch
+  }
+
+  useEffect(() => {
+    console.log(state);
+  }, [state])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <MeetingOrganizerContext.Provider value={MeetingOrganizer}>
+      <QueryClientProvider client={queryClient}>
+        <div className="App">
+          <AppRoutes />
+        </div>
+      </QueryClientProvider>
+    </MeetingOrganizerContext.Provider>
   );
 }
 
