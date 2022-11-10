@@ -6,19 +6,20 @@ import {
   Select,
 } from '@mui/material';
 import { MeetingOrganizerContext } from "../App";
+import { useOrganizerData } from "../client.api";
 
 
 const Buildings = () => {
   const { state, dispatch } = useContext(MeetingOrganizerContext);
+  const { buildingsResponse: { data } } = useOrganizerData()
 
   const handleBuildingChange = (event) => {
     const buildingId = event.target.value
-    const building = state?.buildings.find(b => b.id === buildingId)
+    const building = data.find(b => b.id === buildingId)
     dispatch({ type: 'SET_BUILDING', data: building })
-    dispatch({ type: 'GET_FREE_ROOMS' })
   }
 
-  return state?.buildings
+  return data && state?.building
     ? <FormControl sx={{}} size="small">
       <InputLabel id="demo-select-small">Building</InputLabel>
       <Select
@@ -29,7 +30,7 @@ const Buildings = () => {
         onChange={handleBuildingChange}
       >
         {
-          state?.buildings.map((b, idx) => (
+          data.map((b, idx) => (
             <MenuItem key={idx} value={b.id}>{b.name}</MenuItem>
           ))
         }

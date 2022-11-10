@@ -6,39 +6,54 @@ const graphQLClient = new GraphQLClient(endpoint, {
 })
 
 export const buildingsQueryDocument = gql`
-  {
-    Buildings {
-      id
-      name
-      meetingRooms{
-        id
-        name
-        floor
-        meetings{
-          id
-          title
-          date
-          startTime
-          endTime
-        }
-      }
-    }
+{
+  Buildings{
+    id
+    name
   }
+}
 `
 
 export const meetingRoomsQueryDocument = gql`
   {
     MeetingRooms{
+      id
       name
       floor
-      building{
-        name
-      }
-      meetings{
+    }
+  }
+`
+
+export const meetingsQueryDocument = gql`
+  {
+    Meetings{
+      id
+      title
+      date
+      startTime
+      endTime
+    }
+  }
+`
+export const meetingRoomsByBuildingQueryDocument = gql`
+query GetMeetingRooms($id: Int!) {
+  Building(id: $id){
+    id
+    name
+    meetingRooms{
+      id
+      name
+      floor
+      meetings {
+        id
         title
+        date
+        startTime
+        endTime
       }
     }
   }
+}
 `
 
 export const addMeetingQueryDocument = gql`

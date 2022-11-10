@@ -11,8 +11,8 @@ function reducer(state, action) {
 
     case 'SET_BUILDING':
       const building = action.data
-      const { id, name, meetingRooms } = building
-      return { ...state, building: { id, name }, meetingRooms };
+      const { id, name } = building
+      return { ...state, building: { id, name } };
 
     case 'ADD_MEETING':
       return { ...state, addMeeting: { ...state.addMeeting, ...action.data } }
@@ -27,7 +27,6 @@ function reducer(state, action) {
         })
         return !!conflictMeetings.length
       })
-      console.log(freeRooms)
       return { ...state, freeRooms }
 
     default:

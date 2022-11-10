@@ -7,3 +7,11 @@ export const getFormattedDate = (date = null, dateFormat = 'dd/MM/yyyy') => {
 export const getCurrentTimeRange = () => {
   return format(new Date(), 'hh:mm')
 }
+
+export const getConflictingMeetings = (meetings, meetingTime) => {
+  const { date, startTime, endTime } = meetingTime
+  return meetings.filter(meeting => {
+    if (meeting.date !== date) return false
+    return (meeting.startTime < endTime) || (meeting.endTime < startTime)
+  })
+}
