@@ -35,6 +35,7 @@ export const meetingsQueryDocument = gql`
     }
   }
 `
+
 export const meetingRoomsByBuildingQueryDocument = gql`
 query GetMeetingRooms($id: Int!) {
   Building(id: $id){
@@ -78,4 +79,5 @@ mutation AddMeeting(
   }
 }
 `
+
 export default graphQLClient

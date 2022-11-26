@@ -1,0 +1,48 @@
+.arrowWrapper {
+  height: 100%;
+  width: 40px;
+  cursor: pointer;
+}
+
+.arrow {
+  border-bottom: 2px solid #000;
+  width: 125px;
+  transform: rotate(90deg);
+  transform-origin: 18% 0%;
+  position: relative;
+  margin-top: 30px;
+}
+
+.arrow:before {
+  content: '<';
+  position: absolute;
+  top: -15px;
+  left: -4px;
+  font-size: 24px;
+}
+
+.arrow:after {
+  content: '>';
+  position: absolute;
+  top: -15px;
+  right: -4px;
+  font-size: 24px;
+}
+
+.inversion {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  gap: 60px;
+}
+
+.rate-label {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.rate {
+  position: absolute;
+  left: 25%;
+  top: 45%;
+}

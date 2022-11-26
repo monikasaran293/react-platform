@@ -5,8 +5,8 @@ import {
   MenuItem,
   Select,
 } from '@mui/material';
-import { MeetingOrganizerContext } from "../App";
-import { useOrganizerData } from "../client.api";
+import { MeetingOrganizerContext } from "../../App";
+import { useOrganizerData } from "../../client.api";
 
 
 const Buildings = () => {

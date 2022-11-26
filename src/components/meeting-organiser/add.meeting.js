@@ -1,16 +1,18 @@
 import { useContext, useEffect, useState } from "react"
-import { parse } from "date-fns";
+import { add, addMinutes, differenceInMinutes, format, parse } from "date-fns";
 import {
   Grid,
   TextField,
 } from '@mui/material';
-import { MeetingOrganizerContext } from "../App";
-import { getFormattedDate } from "../util";
+import { MeetingOrganizerContext } from "../../App";
+import { getFormattedDate } from "../../util";
 
 
 const AddMeeting = () => {
   const { state: { addMeeting }, dispatch } = useContext(MeetingOrganizerContext);
   const { title, date, startTime, endTime, meetingRoomId } = addMeeting
+
+  const getDateFromTime = (time) => new Date(`${date} ${time}`)
 
   const handleFormInputChange = (data) => {
     dispatch({ type: 'ADD_MEETING', data })
@@ -47,7 +49,19 @@ const AddMeeting = () => {
           type={'time'}
           label="Start Time"
           value={startTime}
-          onChange={(e) => handleFormInputChange({ startTime: e.target.value })}
+          onChange={(e) => {
+            const time = {
+              startTime: e.target.value
+            }
+            if (time.startTime >= endTime) {
+              const dateLeft = getDateFromTime(startTime)
+              const dateRight = getDateFromTime(endTime)
+              const meetingDuration = Math.abs(differenceInMinutes(dateRight, dateLeft))
+              const addedTime = addMinutes(getDateFromTime(time.startTime), meetingDuration)
+              time.endTime = format(addedTime, 'hh:mm')
+            }
+            handleFormInputChange(time)
+          }}
         />
       </Grid>
 

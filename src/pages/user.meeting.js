@@ -8,12 +8,14 @@ import {
 import { Box } from "@mui/system";
 
 import { MeetingOrganizerContext } from "../App";
-import FreeRooms from "../components/free.rooms";
-import Buildings from "../components/select.buildings";
-import PageHeader from "../components/page.header";
-import Loader from "../components/loader";
 import { useAddMeeting, useOrganizerData } from "../client.api";
-import AddMeeting from "../components/add.meeting";
+
+import FreeRooms from "../components/meeting-organiser/free.rooms";
+import Buildings from "../components/meeting-organiser/select.buildings";
+import PageHeader from "../components/page.header";
+import AddMeeting from "../components/meeting-organiser/add.meeting";
+
+import Loader from "../components/loader";
 
 
 const UserMeeting = () => {
@@ -31,11 +33,15 @@ const UserMeeting = () => {
     }
   }, [buildingsResponse?.data])
 
+  useEffect(() => {
+    isSuccess && navigate('/')
+  }, [isSuccess])
+
   const onCreateMeeting = async () => {
     refetch()
   }
 
-  if (isSuccess) navigate('/')
+  // if (isSuccess) navigate('/')
   if (buildingsResponse?.isLoading) return <Loader />
 
   return <>

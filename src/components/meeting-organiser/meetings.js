@@ -4,7 +4,7 @@ import {
   Divider,
   Grid,
 } from '@mui/material';
-import { MeetingOrganizerContext } from "../App";
+import { MeetingOrganizerContext } from "../../App";
 import { Box } from "@mui/system";
 
 

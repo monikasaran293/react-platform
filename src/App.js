@@ -1,31 +1,29 @@
-import { createContext, useEffect, useReducer } from "react";
+import { createContext, useReducer } from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
-import reducer from "./reducer";
+import reducer from "./reducer/fx.rates.reducer";
 import { DEFAULT_MEETING_DATA } from "./constants/meeting.constants";
 import AppRoutes from "./routes";
 import './App.css'
 
 const queryClient = new QueryClient();
 export const MeetingOrganizerContext = createContext();
+export const FxRatesDashboardContext = createContext()
 
 function App() {
-  const [state, dispatch] = useReducer(reducer, DEFAULT_MEETING_DATA);
+  const [state, dispatch] = useReducer(reducer, { fxPairData: {} });
 
-  const MeetingOrganizer = {
-    state, dispatch
-  }
-
-  useEffect(() => {
-    console.log(state);
-  }, [state])
+  const MeetingOrganizer = { state, dispatch }
+  const FxRatesDashboard = { state, dispatch }
 
   return (
     <MeetingOrganizerContext.Provider value={MeetingOrganizer}>
-      <QueryClientProvider client={queryClient}>
-        <div className="App">
-          <AppRoutes />
-        </div>
-      </QueryClientProvider>
+      <FxRatesDashboardContext.Provider value={FxRatesDashboard}>
+        <QueryClientProvider client={queryClient}>
+          <div className="App">
+            <AppRoutes />
+          </div>
+        </QueryClientProvider>
+      </FxRatesDashboardContext.Provider>
     </MeetingOrganizerContext.Provider>
   );
 }

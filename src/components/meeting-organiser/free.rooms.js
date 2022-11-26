@@ -8,9 +8,9 @@ import {
   ListItemText,
   ListSubheader,
 } from '@mui/material';
-import { MeetingOrganizerContext } from "../App";
-import { useMeetingRoomsByBuilding } from "../client.api";
-import { getConflictingMeetings } from "../util";
+import { MeetingOrganizerContext } from "../../App";
+import { useMeetingRoomsByBuilding } from "../../client.api";
+import { getConflictingMeetings } from "../../util";
 
 
 const FreeRooms = () => {

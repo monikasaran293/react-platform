@@ -1,4 +1,4 @@
-import { getFormattedDate, getCurrentTimeRange } from "../util";
+import { getFormattedDate, getCurrentTimeRange, getEndTime } from "../util";
 
 export const DEFAULT_MEETING_DATA = {
   building: null,
@@ -7,7 +7,7 @@ export const DEFAULT_MEETING_DATA = {
     title: '',
     date: getFormattedDate(),
     startTime: getCurrentTimeRange(),
-    endTime: getCurrentTimeRange(),
+    endTime: getEndTime(),
     meetingRoomId: null
   }
 }
