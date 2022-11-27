@@ -8,6 +8,7 @@ import PageHeader from "../components/page.header"
 import CreateFxPair from '../components/fx-dashboard/create.fx.pair';
 import FxPairCard from '../components/fx-dashboard/fx.pair.card';
 import SortControls from '../components/fx-dashboard/sort.controls';
+import Loader from '../components/loader';
 
 import { FxRatesDashboardContext } from '../App';
 import { useCountrySymbols } from "../fx.api"
@@ -17,15 +18,11 @@ import { SORT_LIST, SORT_ORDER } from '../constants/fx.rate.constants';
 const FxDashboard = () => {
   const { state: { fxPairData } } = useContext(FxRatesDashboardContext);
 
-  const { isLoading, status, data } = useCountrySymbols()
+  const { isLoading, data } = useCountrySymbols()
   const [showModal, setShowModal] = useState(false)
   const [fxpairs, setFxPairs] = useState([])
   const [sortBy, setSortBy] = useState(SORT_LIST.createdAt)
   const [sortOrder, setSortOrder] = useState(SORT_ORDER.desc)
-
-  useEffect(() => {
-    console.log(fxPairData);
-  }, [fxPairData])
 
   useEffect(() => {
     sortFxPairs()
@@ -56,6 +53,7 @@ const FxDashboard = () => {
   return (
     <div>
       <PageHeader text={'FX Rate Converter'} />
+      {isLoading && <Loader />}
       {
         fxpairs.length > 0 &&
         <>

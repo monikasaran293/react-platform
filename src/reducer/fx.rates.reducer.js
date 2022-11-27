@@ -1,7 +1,6 @@
 import { cloneDeep } from 'lodash'
 
 function reducer(state, action) {
-  console.log(action);
   switch (action.type) {
     case 'CLEAR_STATE':
       return { ...state, ...action.data }

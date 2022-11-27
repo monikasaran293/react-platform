@@ -66,48 +66,86 @@ function Square({ id, value = '' }) {
 }
 
 function Board() {
-  const [player, setPlayer] = useState(PLAYER.O)
+  const [player, setPlayer] = useState(PLAYER.X)
   const [playerPlaces, setPlayerPlaces] = useState({
     [PLAYER.O]: [],
     [PLAYER.X]: []
   })
-  const [winner, setWinner] = useState('None')
+  const [winner, setWinner] = useState(null)
+  const [gameOver, setGameOver] = useState(false)
   const [boardValues, setBoardValues] = useState({})
 
   useEffect(() => {
-    console.log(player);
-    console.log(boardValues);
-    console.log(playerPlaces);
-    console.log('-----------------------');
+    !gameOver && setPlayer(PLAYER[player])
   }, [boardValues])
 
   const onReset = () => {
     setBoardValues({})
     setPlayer(PLAYER.O)
+    setGameOver(false)
+    setWinner(null)
   }
 
-  const isWinner = () => {
-    for (let i = 1; i <= 3; i++) {
-      for (let j = 1; j <= 3; j++) {
-        let pos = '' + i + j
+  const isWinner = (id) => {
+    const changedRow = id[0]
+    const changedCol = id[1]
+    const isDiagonalBox = changedRow === changedCol
+      || parseInt(changedRow) + parseInt(changedCol) === 4
+    if (isDiagonalBox) {
+      let isDiagonal1 = true
+      let isDiagonal2 = true
+      for (let i = 1; i <= 3; i++) {
+        let diagonal1Box = `${i}${i}`
+        let diagonal2Box = `${4 - i}${i}`
+        if (isDiagonal1) {
+          isDiagonal1 = boardValues[diagonal1Box] === player || id === diagonal1Box
+        }
+        if (isDiagonal2) {
+          isDiagonal2 = boardValues[diagonal2Box] === player || id === diagonal2Box
+        }
       }
+      if (isDiagonal1 || isDiagonal2) {
+        setWinner(player)
+        setGameOver(true)
+      }
+    }
+    let isHorzontalMatch = true
+    let isVerticalMatch = true
+    for (let i = 1; i <= 3; i++) {
+      let horizontalPos = `${changedRow}${i}`
+      let verticalPos = `${i}${changedCol}`
+      if (isHorzontalMatch) {
+        isHorzontalMatch = boardValues[horizontalPos] === player || id === horizontalPos
+      }
+      if (isVerticalMatch) {
+        isVerticalMatch = boardValues[verticalPos] === player || id === verticalPos
+      }
+    }
+    if (isHorzontalMatch || isVerticalMatch) {
+      setWinner(player)
+      setGameOver(true)
     }
   }
 
   const onBoardClick = (e) => {
-    let index = e.target.id
-    if (!boardValues[index]) {
-      setBoardValues({ ...boardValues, [index]: player })
-      setPlayer(PLAYER[player])
-      setPlayerPlaces({ ...playerPlaces, [player]: [...playerPlaces[player], index] })
+    if (!gameOver) {
+      let index = e.target.id
+      if (!boardValues[index]) {
+        setBoardValues({ ...boardValues, [index]: player })
+        setPlayerPlaces({ ...playerPlaces, [player]: [...playerPlaces[player], index] })
+        isWinner(index)
+      }
     }
-
   }
 
   return (
     <div style={containerStyle} className="gameBoard">
-      <div id="statusArea" className="status" style={instructionsStyle}>Next player: <span>{player}</span></div>
-      <div id="winnerArea" className="winner" style={instructionsStyle}>Winner: <span>{winner}</span></div>
+      <div id="statusArea" className="status" style={instructionsStyle}>
+        Next player: <span>{gameOver ? 'Game Over!' : player}</span>
+      </div>
+      <div id="winnerArea" className="winner" style={instructionsStyle}>
+        Winner: <span>{winner || 'None'}</span>
+      </div>
       <button style={buttonStyle} onClick={onReset}>Reset</button>
       <div style={boardStyle} onClickCapture={onBoardClick}>
         <div className="board-row" style={rowStyle}>
