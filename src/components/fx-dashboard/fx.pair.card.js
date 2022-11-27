@@ -8,10 +8,10 @@ import { FxRatesDashboardContext } from "../../App";
 import { format } from "date-fns";
 
 const FxPairCard = ({ id, fxPair }) => {
-  const { from, to, background, inverted, lastUpdated, rate = 0 } = fxPair
+  const { from, to, background, lastUpdated = null, rate = 0 } = fxPair
 
   const { dispatch } = useContext(FxRatesDashboardContext);
-  const { refetch, isLoading, data } = useRateConverter({ from, to })
+  const { refetch, isLoading, isFetching, isFetchedAfterMount, data } = useRateConverter({ from, to })
 
   const [fromValue, setFromValue] = useState(1)
   const [toValue, setToValue] = useState(fromValue * rate)
@@ -25,7 +25,7 @@ const FxPairCard = ({ id, fxPair }) => {
     if (currentRate) {
       onCardUpdate({ rate: currentRate, lastUpdated: new Date() })
     }
-  }, [data])
+  }, [isFetching, isFetchedAfterMount])
 
   useEffect(() => {
     onChangeFromValue(fromValue)
@@ -65,7 +65,9 @@ const FxPairCard = ({ id, fxPair }) => {
         position={'relative'}
         justifyContent={'space-between'}>
         <div className="rate-label">{from}</div>
-        <div className="arrowWrapper" onClick={() => onCardUpdate({ to: from, from: to, inverted: !inverted })}>
+        <div
+          className="arrowWrapper"
+          onClick={() => onCardUpdate({ to: from, from: to })}>
           <div className="arrow"></div>
         </div>
         <div className="rate-label">{to}</div>

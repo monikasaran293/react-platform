@@ -8,7 +8,14 @@ function reducer(state, action) {
 
     case 'ADD_FX_PAIR':
       const fxId = action.data.id
-      return { ...state, fxPairData: { ...state.fxPairData, [fxId]: action.data } }
+      const pairExist = state.fxPairData[fxId] || {}
+      return {
+        ...state,
+        fxPairData: {
+          ...state.fxPairData,
+          [fxId]: { ...pairExist, ...action.data }
+        }
+      }
 
     case 'REMOVE_FX_PAIR':
       const copyFxPairs = cloneDeep(state.fxPairData)
