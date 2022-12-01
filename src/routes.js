@@ -4,6 +4,7 @@ import FxDashboard from './pages/fx.dashboard';
 import Home from './pages/home';
 import UserMeeting from './pages/user.meeting';
 import Game from './pages/tic.tac.toe'
+import TodoApp from './pages/todo.app';
 
 const AppRoutes = () => (
   <BrowserRouter>
@@ -13,6 +14,8 @@ const AppRoutes = () => (
       <Route exact path="/new-meeting" element={<UserMeeting />} />
       <Route exact path="/dashboard" element={<FxDashboard />} />
       <Route exact path="/game" element={<Game />} />
+      <Route exact path="/todo" element={<TodoApp />} />
+
     </Routes>
   </BrowserRouter>
 );
