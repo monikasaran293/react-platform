@@ -1,21 +1,25 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import FxDashboard from './pages/fx.dashboard';
-import Home from './pages/home';
-import UserMeeting from './pages/user.meeting';
-import Game from './pages/tic.tac.toe'
-import TodoApp from './pages/todo.app';
+
+const Home = lazy(() => import('./pages/home'));
+const UserMeeting = lazy(() => import('./pages/user.meeting'));
+const Game = lazy(() => import('./pages/tic.tac.toe'));
+const TodoApp = lazy(() => import('./pages/todo.app'));
+const FxDashboard = lazy(() => import('./pages/fx.dashboard'));
+
+const withSuspence = (LazyComponent) => <Suspense fallback={<div>Loading...</div>}>
+  <LazyComponent />
+</Suspense>
 
 const AppRoutes = () => (
   <BrowserRouter>
     <Routes>
-      <Route exact path="/meetings" element={<Home />} />
-      <Route exact path="/" element={<Home />} />
-      <Route exact path="/new-meeting" element={<UserMeeting />} />
-      <Route exact path="/dashboard" element={<FxDashboard />} />
-      <Route exact path="/game" element={<Game />} />
-      <Route exact path="/todo" element={<TodoApp />} />
-
+      <Route exact path="/meetings" element={withSuspence(Home)} />
+      <Route exact path="/" element={withSuspence(Home)} />
+      <Route exact path="/new-meeting" element={withSuspence(UserMeeting)} />
+      <Route exact path="/dashboard" element={withSuspence(FxDashboard)} />
+      <Route exact path="/game" element={withSuspence(Game)} />
+      <Route exact path="/todo" element={withSuspence(TodoApp)} />
     </Routes>
   </BrowserRouter>
 );
