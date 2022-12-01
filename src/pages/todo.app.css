@@ -40,6 +40,7 @@
 
 .todo-filters>div {
   padding: 5px;
+  cursor: pointer;
 }
 
 .todo-filters>.active {
